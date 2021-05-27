@@ -1,0 +1,12 @@
+**/.ipynb_checkpoints/*
+**/.ipynb_checkpoints
+01.raw-pdf/*
+01.raw-pdf
+02.raw-data/*
+02.raw-data
+03.clean-data/*
+03.clean-data
+.toronto-msi
+.toronto-msi/*
+.venv
+.venv/*
