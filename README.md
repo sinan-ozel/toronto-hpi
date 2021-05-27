@@ -8,7 +8,7 @@ You need a Python and Jupyter environment. You also need to have Tesseract insta
 
 ## Setup
 
-After cloning the repo, (`git clone `) and installing the required repos in `requirements.txt`, start a Jupyter server in the root directory.
+After cloning the repo, (`git clone git@github.com:sinan-ozel/toronto-msi.git`) and installing the required repos in `requirements.txt`, start a Jupyter server in the root directory.
 
 ## Data Preparation & Exploratory Data Analysis.
 
