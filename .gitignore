@@ -10,3 +10,9 @@
 .toronto-msi/*
 .venv
 .venv/*
+presentation/*.aux
+presentation/*.out
+presentation/*.nav
+presentation/*.fls
+presentation/*.log
+presentation/*.snm
