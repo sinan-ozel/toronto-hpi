@@ -1,8 +1,7 @@
 \babel@toc {english}{}
 \beamer@sectionintoc {1}{Data: Home Price Index (HPI)}{3}{0}{1}
 \beamer@sectionintoc {2}{Problem Statement: Forecast the HPI}{6}{0}{2}
-\beamer@sectionintoc {3}{Benchmark: Moving Average}{8}{0}{3}
-\beamer@sectionintoc {4}{Validation: Moving Window, Next Month Forecast MSE}{8}{0}{4}
-\beamer@sectionintoc {5}{Model: Vector AutoRegressive (VAR)}{10}{0}{5}
-\beamer@sectionintoc {6}{Forecasts}{10}{0}{6}
-\beamer@sectionintoc {7}{Future Work}{10}{0}{7}
+\beamer@sectionintoc {3}{Validation Framework}{8}{0}{3}
+\beamer@sectionintoc {4}{Model Framework: Vector AutoRegressive (VAR)}{21}{0}{4}
+\beamer@sectionintoc {5}{Forecasts \& Validation}{35}{0}{5}
+\beamer@sectionintoc {6}{Future Work}{37}{0}{6}

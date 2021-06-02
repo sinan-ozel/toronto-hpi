@@ -16,3 +16,7 @@ presentation/*.nav
 presentation/*.fls
 presentation/*.log
 presentation/*.snm
+presentation/*.fdb*
+presentation/*.synctex*
+**/#*#
+presentation/*.lyx~
