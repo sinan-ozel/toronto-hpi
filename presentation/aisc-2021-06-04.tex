@@ -1,6 +1,6 @@
 %% LyX 2.3.6.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass[english]{beamer}
+\documentclass[english,fleqn]{beamer}
 \usepackage{lmodern}
 \renewcommand{\sfdefault}{lmss}
 \renewcommand{\ttdefault}{lmtt}
@@ -267,9 +267,71 @@
   }
 \end{frame}
 
-\section{Model: Vector AutoRegressive (VAR)}
+\section{Model Framework: Vector AutoRegressive (VAR)}
+\begin{frame}{AR(2) $ \longrightarrow $ 2-panel VAR(2)}
+  \begin{exampleblock}<1|only@1>{AR(2) Model}
+    \[
+      \scriptstyle
+      Y_t = \beta_0 + \beta_1 Y_{t-1} + \beta_2 Y_{t-2} + \epsilon_t
+    \]
+  \end{exampleblock}
+  \begin{exampleblock}<2|only@2>{AR(2) Model on One Panel}
+    I added the subscript $ 1 $ to show that this is panel $ 1 $ among many.
+    \[
+      \scriptstyle
+      Y_{1,t} = \beta_0 + \beta_{1,1} Y_{1, t-1} + \beta_{1,2} Y_{1, t-2} + \epsilon_t
+    \]
+  \end{exampleblock}
+  \begin{exampleblock}<3|only@3>{AR(2) Model on One Panel}
+    Now I added two more terms from \emph{another} panel.
+    \[
+      \scriptstyle
+      Y_{1,t} = \beta_0 + \beta_{1,1} Y_{1, t-1} + \beta_{1,2} Y_{1, t-2} \color{red} + \beta_{2,1} Y_{2, t-1} + \beta_{2,2} Y_{2, t-2} \color{black} + \epsilon_t
+    \]
+  \end{exampleblock}
+  \begin{exampleblock}<4|only@4>{VAR(2) Model on Two Panels}
+    Finally, I do the same for Panel $ 2 $.
+    \[
+      \scriptstyle
+      Y_{1,t} = \beta_0 + \beta_{11,1} Y_{1, t-1} + \beta_{11,2} Y_{1, t-2} + \beta_{12,1} Y_{2, t-1} + \beta_{12,2} Y_{2, t-2} \color{black} + \epsilon_{1,t}
+    \]
+    \[
+      \scriptstyle
+      Y_{2,t} = \beta_0 + \beta_{21,1} Y_{1, t-1} + \beta_{21,2} Y_{1, t-2} + \beta_{22,1} Y_{2, t-1} + \beta_{22,2} Y_{2, t-2} \color{black} + \epsilon_{2,t}
+    \]
+  \end{exampleblock}
+  \begin{block}<5-|only@5->{Why VAR Models?}
+    \begin{itemize}
+      \item<5-> Why not: we have additional data, so why not use it?
+      \item<6-> Explanatory power: Impulse Response Functions (IRF)
+      \item<7-> \sout<8>{Granger Causality}
+    \end{itemize}
+  \end{block}
+\end{frame}
 
-\section{Forecasts}
+\begin{frame}{Stationarity: Dickey-Fuller \& Differencing}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{toronto-hpi.png}<1|only@1>
+    \begin{block}<2-5|only@2-5>{Are the panels stationary?}
+      \begin{itemize}
+        \item<3-5> Visually, it is clear that the panels are not stationary.
+        \item<4-5> For each panel, I run the Augmented Dickey-Fuller test
+        \item<5-5> I reject non-stationarity for over 99\% of the panels.
+      \end{itemize}
+    \end{block}
+    % TODO: Add something about percent differences.
+    \includegraphics[width=0.8\textwidth]{toronto-change-in-hpi.png}<6|only@6>
+  \end{center}
+\end{frame}
+
+
+\section{Forecasts \& Validation}
+
+\begin{frame}{A Good Example}
+\end{frame}
+
+\begin{frame}{MSE: Benchmark vs VAR model}
+\end{frame}
 
 \section{Future Work}
 \begin{frame}{Future Work}
