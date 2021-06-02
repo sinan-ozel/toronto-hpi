@@ -8,12 +8,16 @@
 \usepackage[latin9]{inputenc}
 \usepackage{amssymb}
 \usepackage{booktabs}
+\usepackage{ulem}
+\renewcommand<>{\sout}[1]{%
+  \renewcommand{\ULthickness}{1.4pt}%
+    \only#2{\beameroriginal{\sout}{#1}}
+    \invisible#2{#1}
+  \renewcommand{\ULthickness}{.4pt}%
+}
 \usepackage{tikz}
 \usetikzlibrary{calc}
 \usetikzlibrary{overlay-beamer-styles}
-
-\newcounter{nodecount}
-\newcommand\tabnode[1]{\addtocounter{nodecount}{1} \tikz \node                (\arabic{nodecount}) {#1};}
 
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
@@ -127,10 +131,27 @@
   \end{block}
 \end{frame}
 
-\section{Benchmark: Moving Average}
+\section{Validation Framework}
+\begin{frame}{Validation: Moving Window, Next Month Forecast MSE}
 
-\section{Validation: Moving Window, Next Month Forecast MSE}
-\begin{frame}{Moving Window}
+  \newcommand{\trainingsamplecolor}{blue}
+  \newcommand{\validationsamplecolor}{orange}
+  \newcommand{\trainingsamplewidth}{.27}
+  \newcommand{\twomonthgapwidth}{.14}
+  \newcommand{\validationsamplewidth}{.07}
+
+
+  \begin{block}<2-5|only@2-5>{Moving Window}
+    \color{\trainingsamplecolor}4-month Training Sample
+  \end{block}
+  \begin{block}<6-9|only@6-9>{Moving Window}
+    \color{\trainingsamplecolor}4-month Training Sample
+    \color{\validationsamplecolor}Validation 1 Month After
+  \end{block}
+  \begin{block}<10-13|only@10-13>{Moving Window}
+    \color{\trainingsamplecolor}4-month Training Sample
+    \color{\validationsamplecolor}Validation 1 Quarter After
+  \end{block}
   \noindent\resizebox{\textwidth}{!}{
     \begin{tikzpicture}
       \node (table) {
@@ -157,10 +178,91 @@
           \bottomrule
         \end{tabular}
       };
-      \draw [green, ultra thick, rounded corners, fill=green, fill opacity=0.5, draw on=<2->]
-      ($(table.south west) !.1! (table.north west)$)
-      rectangle 
-      ($(table.south east) !.9! (table.north east)$);
+
+
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<2>]
+      ($(table.north west) !.245! (table.north east)$)
+      rectangle
+      ($(table.south west) !.245 + \trainingsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<3>]
+      ($(table.north west) !.315! (table.north east)$)
+      rectangle
+      ($(table.south west) !.315 + \trainingsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<4>]
+      ($(table.north west) !.38! (table.north east)$)
+      rectangle
+      ($(table.south west) !.38 + \trainingsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<5>]
+      ($(table.north west) !.45! (table.north east)$)
+      rectangle
+      ($(table.south west) !.45 + \trainingsamplewidth! (table.south east)$);
+
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<6>]
+      ($(table.north west) !.245! (table.north east)$)
+      rectangle
+      ($(table.south west) !.245 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<6>]
+      ($(table.north west) !.245 + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.245 + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<7>]
+      ($(table.north west) !.315! (table.north east)$)
+      rectangle
+      ($(table.south west) !.315 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<7>]
+      ($(table.north west) !.315 + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.315 + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<8>]
+      ($(table.north west) !.38! (table.north east)$)
+      rectangle
+      ($(table.south west) !.38 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<8>]
+      ($(table.north west) !.38 + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.38 + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<9>]
+      ($(table.north west) !.45! (table.north east)$)
+      rectangle
+      ($(table.south west) !.45 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<9>]
+      ($(table.north west) !.45 + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.45 + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<10>]
+      ($(table.north west) !.245! (table.north east)$)
+      rectangle
+      ($(table.south west) !.245 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<10>]
+      ($(table.north west) !.245 + \twomonthgapwidth + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.245 + \twomonthgapwidth + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<11>]
+      ($(table.north west) !.315! (table.north east)$)
+      rectangle
+      ($(table.south west) !.315 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<11>]
+      ($(table.north west) !.315 + \twomonthgapwidth + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.315 + \twomonthgapwidth + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<12>]
+      ($(table.north west) !.38! (table.north east)$)
+      rectangle
+      ($(table.south west) !.38 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<12>]
+      ($(table.north west) !.38 + \twomonthgapwidth + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.38 + \twomonthgapwidth + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+      \draw [\trainingsamplecolor, ultra thick, rounded corners, fill=\trainingsamplecolor, fill opacity=0.5, visible on=<13>]
+      ($(table.north west) !.45! (table.north east)$)
+      rectangle
+      ($(table.south west) !.45 + \trainingsamplewidth! (table.south east)$);
+      \draw [\validationsamplecolor, ultra thick, rounded corners, fill=\validationsamplecolor, fill opacity=0.5, visible on=<13>]
+      ($(table.north west) !.45 + \twomonthgapwidth + \trainingsamplewidth! (table.north east)$)
+      rectangle
+      ($(table.south west) !.45 + \twomonthgapwidth + \trainingsamplewidth + \validationsamplewidth! (table.south east)$);
+
     \end{tikzpicture}
   }
 \end{frame}
