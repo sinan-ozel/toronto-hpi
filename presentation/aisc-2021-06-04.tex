@@ -1,5 +1,7 @@
 %% LyX 2.3.6.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
+
+%% I knew what I was doing, so I stopped using LyX and switched to editing this file directly --Sinan
 \documentclass[english,fleqn]{beamer}
 \usepackage{lmodern}
 \renewcommand{\sfdefault}{lmss}
@@ -60,8 +62,19 @@
 
 %\beamerdefaultoverlayspecification{<+->}
 \begin{frame}{Outline}
-
 \tableofcontents{}
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{Repo}
+  \begin{center}
+    \begin{itemize}
+      \item Purpose: Forecast Home Price Index (HPI) in Toronto by neighborhood.
+      \item Validation: MSE calculated for each time period \& neighborhood.
+      \item Benchmark: Moving average return.
+      \item Code: \href{https://github.com/sinan-ozel/toronto-hpi}{https://github.com/sinan-ozel/toronto-hpi}
+    \end{itemize}
+  \end{center}
 \end{frame}
 
 \section{Data: Home Price Index (HPI)}
@@ -312,28 +325,146 @@
 \begin{frame}{Stationarity: Dickey-Fuller \& Differencing}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{toronto-hpi.png}<1|only@1>
-    \begin{block}<2-5|only@2-5>{Are the panels stationary?}
+    \begin{block}<2-|only@2->{Are the panels stationary?}
       \begin{itemize}
-        \item<3-5> Visually, it is clear that the panels are not stationary.
-        \item<4-5> For each panel, I run the Augmented Dickey-Fuller test
-        \item<5-5> I reject non-stationarity for over 99\% of the panels.
+        \item<3-> Visually, it is clear that the panels are not stationary.
+        \item<4-> For each panel, I run the Augmented Dickey-Fuller test
+        \item<5-> I reject non-stationarity for over 99\% of the panels.
       \end{itemize}
     \end{block}
-    % TODO: Add something about percent differences.
-    \includegraphics[width=0.8\textwidth]{toronto-change-in-hpi.png}<6|only@6>
   \end{center}
+\end{frame}
+
+\begin{frame}{Differencing \& Percent Changes}
+  \begin{center}
+    \begin{columns}
+      \begin{column}{0.33\textwidth}
+        \begin{exampleblock}{Differencing}
+          \[
+            \Delta Y_{t} = Y_{t} - Y_{t-1}
+          \]
+        \end{exampleblock}
+      \end{column}
+      \begin{column}{0.67\textwidth}
+        \begin{exampleblock}<1|only@1>{Percent Changes, i.e. "Returns"}
+          \[
+            r_{t} = \frac{Y_{t} - Y_{t-1}}{Y_{t-1}} \approx \log Y_t - \log Y_{t-1}
+          \]
+        \end{exampleblock}
+        \begin{alertblock}<2|only@2>{Percent Changes, i.e. "Returns"}
+          \[
+            r_{t} = \frac{Y_{t} - Y_{t-1}}{Y_{t-1}} \approx \log Y_t - \log Y_{t-1}
+          \]
+        \end{alertblock}
+      \end{column}
+    \end{columns}
+    \begin{block}{Justification for Percent Changes}
+      \begin{itemize}
+        \item Easier to interpret
+        \item Easier to discuss with stakeholders and laypeople
+        \item Normalizes the amount of change to each period.
+      \end{itemize}
+    \end{block}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Monthly Percent Changes: i.e "Returns"}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{toronto-change-in-hpi.png}<1|only@1>
+    \begin{block}<2-|only@2->{Are the panels stationary?}
+      \begin{itemize}
+        \item<3-> Visually, it is clear that the panels are not stationary.
+        \item<4-> For each panel, I run the Augmented Dickey-Fuller test
+        \item<5-> I fail to reject non-stationarity less than 5\% of the panels.
+        \item<6-> \href{https://www.machinelearningplus.com/time-series/kpss-test-for-stationarity/}{KPSS test} could have been a better option.
+      \end{itemize}
+    \end{block}
+\end{center}
 \end{frame}
 
 
 \section{Forecasts \& Validation}
 
 \begin{frame}{A Good Example}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{good-example.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Too Good An Example (To Be True)}
+  \begin{center}
+    \begin{alertblock}{Looks good, but...}
+      \begin{itemize}[<+->]
+        \item This only works this well when trained from 2014 Dec to 2018 Dec \& validated against 2019 Jan to 2019 Jun.
+        \item ... hence my justification for the "rolling window" validation.
+        \item If we modelled on the right date (July 2019), we would "believe" in our model, but only by mistake.
+      \end{itemize}
+    \end{alertblock}
+  \end{center}
+\end{frame}
+
+\begin{frame}{A Simple Benchmark}
+  \begin{center}
+    \begin{block}{"Return" Moving Average}
+      \begin{itemize}[<+->]
+        \item Obtain the return.
+        \item Calculate the moving average over the rolling window.
+        \item Use this return to forecast the next month.
+        \item Use exponential growth formula to obtain a forecast for n months into the future.
+      \end{itemize}
+    \end{block}
+    \begin{columns}
+      \begin{column}{0.3\textwidth}
+        \begin{exampleblock}{Average "Return"}
+          \[
+            r_{t} = \frac{Y_{t} - Y_{t-1}}{Y_{t-1}}
+          \]
+        \end{exampleblock}
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \begin{exampleblock}{1-month forecast}
+          \[
+            \hat{r}_{t+1} = \sum\limits_{t - T}^t r_{t} / T
+          \]
+        \end{exampleblock}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \begin{exampleblock}{n-month forecast}
+          \[
+            \hat{r}_{t+n} = ( 1 + \hat{r}_{t+1} ) ^n - 1
+          \]
+        \end{exampleblock}
+      \end{column}
+    \end{columns}
+  \end{center}
 \end{frame}
 
 \begin{frame}{MSE: Benchmark vs VAR model}
+  \begin{center}
+    \includegraphics[height=0.6\textheight]{benchmark-vs-var.png}
+    \noindent\resizebox{\textwidth}{!}{
+      \begin{tabular}{lrrr}
+        \toprule
+                    & 1-month           &	3-months          & 6-months           \\
+          \midrule
+          Benchmark & 0.001016761439712	& 0.00366345390135  & 0.008432082243063  \\
+          VAR Model & 0.001587714029696	& 0.007939166535112 &	0.044613766619586  \\
+        \bottomrule
+      \end{tabular}
+    }
+  \end{center}
 \end{frame}
 
-\section{Future Work}
+\section{Conclusions \& Future Work}
+\begin{frame}{Conclusions \& Final Thoughts}
+  \begin{itemize}
+    \item<1-> VAR still not great for forecasting
+    \item<2-> Exogenous data might improve: monthly inflation rate \& mortgage rates.
+    \item<3-> VAR for explainability: IRF
+  \end{itemize}
+\end{frame}
+
+
 \begin{frame}{Future Work}
 
 I would like to repeat the work with the following sets of models:
@@ -347,8 +478,5 @@ and years.
 \end{itemize}
 \end{frame}
 
-% TODO: Add information on IRF
-% TODO: Add information on Granger Causality. (which coefficient it tests)
-% TODO: Explain AIC?
 
 \end{document}
