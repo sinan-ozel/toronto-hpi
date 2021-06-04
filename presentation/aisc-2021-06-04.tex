@@ -33,7 +33,9 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\usetheme{Warsaw}
+% \usetheme{Warsaw}
+\usetheme{PaloAlto}
+\usecolortheme{beetle}
 % or ...
 
 \setbeamercovered{transparent}
@@ -66,7 +68,7 @@
 \end{frame}
 
 \section{Introduction}
-\begin{frame}{Repo}
+\begin{frame}{Introduction}
   \begin{center}
     \begin{itemize}
       \item Purpose: Forecast Home Price Index (HPI) in Toronto by neighborhood.
@@ -283,13 +285,14 @@
 \section{Model Framework: Vector AutoRegressive (VAR)}
 \begin{frame}{AR(2) $ \longrightarrow $ 2-panel VAR(2)}
   \begin{exampleblock}<1|only@1>{AR(2) Model}
+    I start with the AR(2) model.
     \[
       \scriptstyle
       Y_t = \beta_0 + \beta_1 Y_{t-1} + \beta_2 Y_{t-2} + \epsilon_t
     \]
   \end{exampleblock}
   \begin{exampleblock}<2|only@2>{AR(2) Model on One Panel}
-    I added the subscript $ 1 $ to show that this is panel $ 1 $ among many.
+    I added the subscript $ 1 $ to show that this is one panel.
     \[
       \scriptstyle
       Y_{1,t} = \beta_0 + \beta_{1,1} Y_{1, t-1} + \beta_{1,2} Y_{1, t-2} + \epsilon_t
@@ -345,7 +348,7 @@
           \]
         \end{exampleblock}
       \end{column}
-      \begin{column}{0.67\textwidth}
+      \begin{column}{0.63\textwidth}
         \begin{exampleblock}<1|only@1>{Percent Changes, i.e. "Returns"}
           \[
             r_{t} = \frac{Y_{t} - Y_{t-1}}{Y_{t-1}} \approx \log Y_t - \log Y_{t-1}
@@ -356,7 +359,7 @@
             r_{t} = \frac{Y_{t} - Y_{t-1}}{Y_{t-1}} \approx \log Y_t - \log Y_{t-1}
           \]
         \end{alertblock}
-      \end{column}
+      \end{column}  
     \end{columns}
     \begin{block}{Justification for Percent Changes}
       \begin{itemize}
@@ -414,23 +417,26 @@
       \end{itemize}
     \end{block}
     \begin{columns}
-      \begin{column}{0.3\textwidth}
+      \begin{column}{0.28\textwidth}
         \begin{exampleblock}{Average "Return"}
           \[
+            \scriptstyle
             r_{t} = \frac{Y_{t} - Y_{t-1}}{Y_{t-1}}
           \]
         \end{exampleblock}
       \end{column}
-      \begin{column}{0.3\textwidth}
+      \begin{column}{0.28\textwidth}
         \begin{exampleblock}{1-month forecast}
           \[
+            \scriptstyle
             \hat{r}_{t+1} = \sum\limits_{t - T}^t r_{t} / T
           \]
         \end{exampleblock}
       \end{column}
-      \begin{column}{0.4\textwidth}
+      \begin{column}{0.38\textwidth}
         \begin{exampleblock}{n-month forecast}
           \[
+            \scriptstyle
             \hat{r}_{t+n} = ( 1 + \hat{r}_{t+1} ) ^n - 1
           \]
         \end{exampleblock}
